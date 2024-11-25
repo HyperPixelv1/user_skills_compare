@@ -1,0 +1,22 @@
+<h1>Skills for <%= @user.name %></h1>
+
+<% if @skills.present? %>
+  <table class="list skills">
+    <thead>
+      <tr>
+        <th>Tag</th>
+        <th>Task Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @skills.each do |skill| %>
+        <tr>
+          <td><%= skill[:tag_name] %></td>
+          <td><%= skill[:task_count] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No skills found for this user.</p>
+<% end %>
