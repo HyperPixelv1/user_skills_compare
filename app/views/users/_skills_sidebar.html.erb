@@ -1,0 +1,35 @@
+<%= stylesheet_link_tag 'skills_sidebar', plugin: :user_skills_compare %>
+<div class="user-skills">
+  <h3>Yetenekler</h3>
+  <% if skills.present? %>
+    <div class="skills-container">
+      <% skills.each_with_index do |skill, index| %>
+        <% # Her etiket için farklı renk seçenekleri %>
+        <% color_classes = ["color-green", "color-blue", "color-orange", "color-purple", "color-grey", "color-yellow", "color-brown", "color-cyan", "color-lime", "color-deep-purple", "color-red", "color-indigo"] %>
+        <% color_class = color_classes[index % color_classes.length] || "color-default" %>
+       
+        <div class="skill-badge <%= color_class %>">
+          <span class="skill-name">
+            <%= link_to skill[:tag_name], issues_path(
+              utf8: "✓",
+              set_filter: "1",
+              sort: "id:desc",
+              f: ['status_id', 'assigned_to_id', 'tags'],
+              "op[status_id]" => "=",
+              "v[status_id][]" => IssueStatus.find_by(name: "Done").id,  
+              "op[assigned_to_id]" => "=",
+              "v[assigned_to_id][]" => user.id,
+              "op[tags]" => "=",
+              "v[tags][]" => skill[:tag_name]
+            ), class: "tag-link" %>
+          </span>
+          <span class="skill-count"><%= skill[:task_count] %></span>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="skills-container">
+        <p>Kullaniciya Tanimli yetenek yok</p>
+    </div>
+  <% end %>
+</div>
